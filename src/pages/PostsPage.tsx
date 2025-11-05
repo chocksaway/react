@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 type Post = { id: number; title: string; body: string };
