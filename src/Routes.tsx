@@ -2,6 +2,7 @@
 import {
     createBrowserRouter,
     RouterProvider,
+    Navigate,
 } from 'react-router-dom';
 
 import { Header } from './Header';
@@ -13,15 +14,29 @@ const router = createBrowserRouter([
     {
         path: 'posts',
         element: <PostsPage />,
-        loader: getPosts, // return the fetched posts
+        loader: getPosts,
+        errorElement: <div>Failed to load posts</div>,
     },
     {
         path: 'products',
         element: <ProductsPage />,
+        errorElement: <div>Failed to load products</div>,
     },
     {
-        path: '/',
+        path: 'header',
         element: <Header />,
+        errorElement: <div>Something went wrong</div>,
+    },
+    // redirect root "/" to "/header"
+    {
+        path: '/',
+        element: <Navigate to="/header" replace />,
+        errorElement: <div>Something went wrong</div>,
+    },
+    // catch-all 404
+    {
+        path: '*',
+        element: <div>404 - Page not found</div>,
     },
 ]);
 
