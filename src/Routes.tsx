@@ -1,18 +1,22 @@
-// File: src/Routes.tsx
+import React from 'react';
 import {
-    createBrowserRouter,
-    RouterProvider,
-    Outlet,
+    BrowserRouter,
+    Routes as RouterRoutes,
+    Route,
     Navigate,
+    Outlet,
 } from 'react-router-dom';
 
 import { Header } from './Header';
 import { ProductsPage } from './pages/ProductsPage';
 import { PostsPage } from './pages/PostsPage';
-import { getPosts } from './posts/getPosts';
 import { ErrorBoundary } from './ErrorBoundary';
 
-function Layout() {
+function HeaderOnly(): JSX.Element {
+    return <div className="p-5">Header route content (header already rendered by layout)</div>;
+}
+
+function Layout(): JSX.Element {
     return (
         <>
             <Header />
@@ -23,37 +27,21 @@ function Layout() {
     );
 }
 
-const router = createBrowserRouter([
-    {
-        path: '/',
-        element: (
-            <ErrorBoundary>
-                <Layout />
-            </ErrorBoundary>
-        ),
-        errorElement: <Header />, // used for loader/action errors
-        children: [
-            {
-                index: true,
-                element: <div className="p-5">Welcome — pick a page from the header.</div>,
-            },
-            {
-                path: 'posts',
-                element: <PostsPage />,
-                loader: getPosts, // return the fetched posts
-            },
-            {
-                path: 'products',
-                element: <ProductsPage />,
-            },
-            {
-                path: '*',
-                element: <Navigate to="/" replace />,
-            },
-        ],
-    }
-]);
+function withErrorBoundary(element: JSX.Element): JSX.Element {
+    return <ErrorBoundary>{element}</ErrorBoundary>;
+}
 
-export function Routes() {
-    return <RouterProvider router={router} />;
+export function Routes(): JSX.Element {
+    return (
+        <RouterRoutes>
+            <Route path="/" element={<Layout />}>
+                <Route index element={<Navigate to="/header" replace />} />
+
+                <Route path="header" element={withErrorBoundary(<HeaderOnly />)} />
+
+                <Route path="posts" element={withErrorBoundary(<PostsPage />)} />
+                <Route path="products" element={withErrorBoundary(<ProductsPage />)} />
+            </Route>
+        </RouterRoutes>
+    );
 }
