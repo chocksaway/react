@@ -25,13 +25,13 @@ const router = createBrowserRouter([
     {
         path: 'header',
         element: <Header />,
-        errorElement: <div>Something went wrong</div>,
+        errorElement: <div>header - Something went wrong</div>,
     },
     // redirect root "/" to "/header"
     {
         path: '/',
         element: <Navigate to="/header" replace />,
-        errorElement: <div>Something went wrong</div>,
+        errorElement: <div>/ - something went wrong</div>,
     },
     // catch-all 404
     {

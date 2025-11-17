@@ -7,6 +7,8 @@ test('renders errorElement for /', async () => {
   const routes = [
     {
       path: '/',
+      // provide a placeholder element so the route is a valid leaf route
+      element: <div />,
       // loader throws to trigger the route error boundary
       loader: () => {
         throw new Error('test error');
@@ -18,6 +20,5 @@ test('renders errorElement for /', async () => {
   const router = createMemoryRouter(routes, { initialEntries: ['/'] });
   render(<RouterProvider router={router} />);
 
-  // findByText is async because the router resolves errors asynchronously
-  expect(await screen.findByText('Something went wrong')).toBeInTheDocument();
+  expect(await screen.findByText('xxxxxxxSomething went wrong')).toBeInTheDocument();
 });
