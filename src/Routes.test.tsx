@@ -20,5 +20,5 @@ test('renders errorElement for /', async () => {
   const router = createMemoryRouter(routes, { initialEntries: ['/'] });
   render(<RouterProvider router={router} />);
 
-  expect(await screen.findByText('xxxxxxxSomething went wrong')).toBeInTheDocument();
+  expect(await screen.findByText('Something went wrong')).toBeInTheDocument();
 });
